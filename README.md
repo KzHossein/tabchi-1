@@ -34,4 +34,4 @@ cd TABCHI
 
 ./bot autolaunch
 
-[creator](https://telegram.me/ghosts_prince)
+⚜️[Developer](https://telegram.me/ghosts_prince)⚜️
