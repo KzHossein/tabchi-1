@@ -35,3 +35,7 @@ cd TABCHI
 ./bot autolaunch
 
 ⚜️[Developer](https://telegram.me/ghosts_prince)⚜️
+==
+
+🔱[CHANNEL CREATORE](https://telegram.me/banger_team)🔱
+==
