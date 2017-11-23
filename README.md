@@ -2,6 +2,7 @@
 ======================================
 
 -راهنمای نصب-
+=============
 
 git clone https://github.com/SAMIYAR-BANG/TABCHI
 
@@ -19,6 +20,7 @@ cd TABCHI && ./bot 1
 
 ***********
 -لانچ ربات-
+==========
 
 cd TABCHI
 
@@ -26,6 +28,7 @@ cd TABCHI
 
 ***********
 -لانچ-
+=====
 
 cd TABCHI
 
