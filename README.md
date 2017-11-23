@@ -37,5 +37,5 @@ cd TABCHI
 ⚜️[Developer](https://telegram.me/ghosts_prince)⚜️
 ==
 
-🔱[CHANNEL CREATORE](https://telegram.me/banger_team)🔱
+🔱[CHANNEL CREATOR](https://telegram.me/banger_team)🔱
 ==
