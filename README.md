@@ -1,5 +1,7 @@
 -TABCHI BY SAMIYAR BANG | @BANGER_TEAM
 
+-راهنمای نصب-
+
 git clone https://github.com/SAMIYAR-BANG/TABCHI
 
 cd TABCHI
@@ -15,11 +17,13 @@ chmod +x bot
 cd TABCHI && ./bot 1
 
 ***********
+-لانچ ربات-
 cd TABCHI
 
 ./bot 1
 
 ***********
+-لانچ-
 cd TABCHI
 
 ./bot autolaunch
