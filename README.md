@@ -18,12 +18,14 @@ cd TABCHI && ./bot 1
 
 ***********
 -لانچ ربات-
+
 cd TABCHI
 
 ./bot 1
 
 ***********
 -لانچ-
+
 cd TABCHI
 
 ./bot autolaunch
