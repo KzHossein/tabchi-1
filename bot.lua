@@ -383,7 +383,7 @@ function tdcli_update_callback(data)
 						redis:del("bot1autoanswer")
 						return send(msg.chat_id_, 0, "<i>The auto responder mode of tabchi has been deactivated.</i>")
 					end
-				elseif text:match("^(تازه سازی)$")then
+				elseif text:match("^(Refresh)$")then
 					local list = {redis:smembers("bot1supergroups"),redis:smembers("bot1groups")}
 					tdcli_function({
 						ID = "SearchContacts",
@@ -405,7 +405,7 @@ function tdcli_update_callback(data)
 							end
 					end
 					return send(msg.chat_id_,msg.id_,"<i>Refresh statics of tabchi number </i><code> 1 </code> Successfully done.")
-				elseif text:match("^(وضعیت)$") then
+				elseif text:match("^(situation)$") then
 					local s = redis:get("bot1maxjoin") and redis:ttl("bot1maxjoin") or 0
 					local ss = redis:get("bot1maxlink") and redis:ttl("bot1maxlink") or 0
 					local msgadd = redis:get("bot1addmsg") and "✔️" or "✖️"
