@@ -17,17 +17,17 @@ function get_admin ()
   	end
   	return print("\n\27[36m     ADMIN ID |\27[32m ".. admin .." \27[36m| شناسه ادمین")
 end
-function get_bot (i, naji)
-	function bot_info (i, naji)
-		redis:set("bot1id",naji.id_)
-		if naji.first_name_ then
-			redis:set("bot1fname",naji.first_name_)
+function get_bot (i, sami)
+	function bot_info (i, sami)
+		redis:set("bot1id",sami.id_)
+		if sami.first_name_ then
+			redis:set("bot1fname",sami.first_name_)
 		end
-		if naji.last_name_ then
-			redis:set("bot1lanme",naji.last_name_)
+		if sami.last_name_ then
+			redis:set("bot1lanme",sami.last_name_)
 		end
-		redis:set("bot1num",naji.phone_number_)
-		return naji.id_
+		redis:set("bot1num",sami.phone_number_)
+		return sami.id_
 	end
 	tdcli_function ({ID = "GetMe",}, bot_info, nil)
 end
@@ -52,9 +52,9 @@ function writefile(filename, input)
 	file:close()
 	return true
 end
-function process_join(i, naji)
-	if naji.code_ == 429 then
-		local message = tostring(naji.message_)
+function process_join(i, sami)
+	if sami.code_ == 429 then
+		local message = tostring(sami.message_)
 		local Time = message:match('%d+')
 		redis:setex("bot1maxjoin", tonumber(Time), true)
 	else
@@ -62,12 +62,12 @@ function process_join(i, naji)
 		redis:sadd("bot1savedlinks", i.link)
 	end
 end
-function process_link(i, naji)
-	if (naji.is_group_ or naji.is_supergroup_channel_) then
+function process_link(i, sami)
+	if (sami.is_group_ or sami.is_supergroup_channel_) then
 		redis:srem("bot1waitelinks", i.link)
 		redis:sadd("bot1goodlinks", i.link)
-	elseif naji.code_ == 429 then
-		local message = tostring(naji.message_)
+	elseif sami.code_ == 429 then
+		local message = tostring(sami.message_)
 		local Time = message:match('%d+')
 		redis:setex("bot1maxlink", tonumber(Time), true)
 	else
@@ -259,7 +259,7 @@ function tdcli_update_callback(data)
 					return send(msg.chat_id_, msg.id_, "<b>Sync information with tabchi Number</b><code> "..tostring(botid).." </code><b>انجام شد.</b>")
 				elseif text:match("^(list) (.*)$") then
 					local matches = text:match("^list (.*)$")
-					local naji
+					local sami
 					if matches == "Contacts" then
 						return tdcli_function({
 							ID = "SearchContacts",
@@ -300,26 +300,26 @@ function tdcli_update_callback(data)
 						if redis:scard('bot1answerslist') == 0  then text = "<code>       EMPTY</code>" end
 						return send(msg.chat_id_, msg.id_, text)
 					elseif matches == "Block" then
-						naji = "bot1blockedusers"
+						sami = "bot1blockedusers"
 					elseif matches == "Chat" then
-						naji = "bot1users"
+						sami = "bot1users"
 					elseif matches == "Group" then
-						naji = "bot1groups"
+						sami = "bot1groups"
 					elseif matches == "Supergroup" then
-						naji = "bot1supergroups"
+						sami = "bot1supergroups"
 					elseif matches == "Link" then
-						naji = "bot1savedlinks"
+						sami = "bot1savedlinks"
 					elseif matches == "Admin" then
-						naji = "bot1admin"
+						sami = "bot1admin"
 					else
 						return true
 					end
-					local list =  redis:smembers(naji)
+					local list =  redis:smembers(sami)
 					local text = tostring(matches).." : \n"
 					for i, v in pairs(list) do
 						text = tostring(text) .. tostring(i) .. "-  " .. tostring(v).."\n"
 					end
-					writefile(tostring(naji)..".txt", text)
+					writefile(tostring(sami)..".txt", text)
 					tdcli_function ({
 						ID = "SendMessage",
 						chat_id_ = msg.chat_id_,
@@ -329,10 +329,10 @@ function tdcli_update_callback(data)
 						reply_markup_ = nil,
 						input_message_content_ = {ID = "InputMessageDocument",
 							document_ = {ID = "InputFileLocal",
-							path_ = tostring(naji)..".txt"},
+							path_ = tostring(sami)..".txt"},
 						caption_ = "lists"..tostring(matches).."tabchi number 1"}
 					}, dl_cb, nil)
-					return io.popen("rm -rf "..tostring(naji)..".txt"):read("*all")
+					return io.popen("rm -rf "..tostring(sami)..".txt"):read("*all")
 				elseif text:match("^(View state) (.*)$") then
 					local matches = text:match("^View state (.*)$")
 					if matches == "on" then
@@ -389,8 +389,8 @@ function tdcli_update_callback(data)
 						ID = "SearchContacts",
 						query_ = nil,
 						limit_ = 999999999
-					}, function (i, naji)
-						redis:set("bot1contacts", naji.total_count_)
+					}, function (i, sami)
+						redis:set("bot1contacts", sami.total_count_)
 					end, nil)
 					for i, v in pairs(list) do
 							for a, b in pairs(v) do 
@@ -398,8 +398,8 @@ function tdcli_update_callback(data)
 									ID = "GetChatMember",
 									chat_id_ = b,
 									user_id_ = bot_id
-								}, function (i,naji)
-									if  naji.ID == "Error" then rem(i.id) 
+								}, function (i,sami)
+									if  sami.ID == "Error" then rem(i.id) 
 									end
 								end, {id=b})
 							end
@@ -428,8 +428,8 @@ function tdcli_update_callback(data)
 						ID = "SearchContacts",
 						query_ = nil,
 						limit_ = 999999999
-					}, function (i, naji)
-					redis:set("bot1contacts", naji.total_count_)
+					}, function (i, sami)
+					redis:set("bot1contacts", sami.total_count_)
 					end, nil)
 					local contacts = redis:get("bot1contacts")
 					local text = [[
@@ -450,19 +450,19 @@ function tdcli_update_callback(data)
 					return send(msg.chat_id_, 0, text)
 				elseif (text:match("^(Send to) (.*)$") and msg.reply_to_message_id_ ~= 0) then
 					local matches = text:match("^Send to (.*)$")
-					local naji
+					local sami
 					if matches:match("^(All)$") then
-						naji = "bot1all"
+						sami = "bot1all"
 					elseif matches:match("^(Chat)") then
-						naji = "bot1users"
+						sami = "bot1users"
 					elseif matches:match("^(gruop)$") then
-						naji = "bot1groups"
+						sami = "bot1groups"
 					elseif matches:match("^(Supergroups)$") then
-						naji = "bot1supergroups"
+						sami = "bot1supergroups"
 					else
 						return true
 					end
-					local list = redis:smembers(naji)
+					local list = redis:smembers(sami)
 					local id = msg.reply_to_message_id_
 					for i, v in pairs(list) do
 						tdcli_function({
@@ -595,13 +595,13 @@ function tdcli_update_callback(data)
 							ID = "SearchContacts",
 							query_ = nil,
 							limit_ = 999999999
-						},function(i, naji)
-							local users, count = redis:smembers("bot1users"), naji.total_count_
+						},function(i, sami)
+							local users, count = redis:smembers("bot1users"), sami.total_count_
 							for n=0, tonumber(count) - 1 do
 								tdcli_function ({
 									ID = "AddChatMember",
 									chat_id_ = i.chat_id,
-									user_id_ = naji.users_[n].id_,
+									user_id_ = sami.users_[n].id_,
 									forward_limit_ = 50
 								},  dl_cb, nil)
 							end
