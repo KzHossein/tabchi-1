@@ -1,5 +1,7 @@
 -TABCHI BY SAMIYAR BANG | @BANGER_TEAM
+
 git clone https://github.com/SAMIYAR-BANG/TABCHI
+
 cd TABCHI
 chmod +x bot
 ./bot install
